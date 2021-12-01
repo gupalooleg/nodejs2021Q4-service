@@ -1,6 +1,12 @@
 const { PORT } = require('./common/config');
-const app = require('./app');
+const festify = require('./app');
 
-app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+(async () => {
+  try {
+    await festify.listen(PORT);
+    console.log(`App is running on http://localhost:${PORT}`);
+  } catch (err) {
+    festify.log.error(err);
+    process.exit(1);
+  }
+})();
