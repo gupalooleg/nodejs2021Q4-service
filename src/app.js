@@ -1,8 +1,6 @@
 const fastify = require('fastify')({ logger: true });
 const path = require('path');
 
-fastify.get('/', async () => 'REST service is running.');
-
 fastify.register(require('fastify-swagger'), {
   exposeRoute: true,
   routePrefix: '/doc',
@@ -13,5 +11,9 @@ fastify.register(require('fastify-swagger'), {
 });
 
 fastify.register(require('./resources/users/user.router'));
+
+fastify.register(require('./resources/boards/board.router'));
+
+fastify.register(require('./resources/tasks/task.router'));
 
 module.exports = fastify;
