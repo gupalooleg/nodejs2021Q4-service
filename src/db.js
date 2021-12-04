@@ -11,10 +11,9 @@ const Constraints = {
     );
   },
   fkConstrUserTaskOnDeleteSetNull: (userId) =>
-    Task.forEach((value, index, array) => {
-      if (value.userId === userId) {
-        array[index].userId = null;
-      }
+    Task.forEach((value) => {
+      const task = value;
+      task.userId = task.userId === userId ? null : task.userId;
     }),
 };
 
