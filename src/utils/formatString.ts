@@ -1,4 +1,4 @@
-function formatString(string, parameters = []) {
+function formatString(string: string, parameters: string[] = []) {
   let formattedString = string;
   parameters.forEach((value, index) => {
     formattedString = formattedString.replace(`{${index}}`, value);
@@ -7,4 +7,4 @@ function formatString(string, parameters = []) {
   return formattedString;
 }
 
-module.exports = formatString;
+export { formatString };
