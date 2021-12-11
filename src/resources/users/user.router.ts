@@ -1,6 +1,7 @@
-const userService = require('./user.service');
+import { FastifyInstance } from 'fastify';
+import * as userService from './user.service';
 
-async function routes(fastify) {
+async function routes(fastify: FastifyInstance) {
   fastify.get('/users', userService.getAll);
 
   fastify.get('/users/:id', userService.getById);
@@ -12,4 +13,4 @@ async function routes(fastify) {
   fastify.delete('/users/:id', userService.remove);
 }
 
-module.exports = routes;
+export { routes };
