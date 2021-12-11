@@ -1,10 +1,10 @@
-const { MESSAGES, formatString } = require('../../utils/index');
-const { RepositoryError } = require('../../error/index');
-const { Board, fkConstrBoardTaskOnDeleteCascade } = require('../../db');
+import { MESSAGES, formatString } from '../../utils/index';
+import { RepositoryError } from '../../error/index';
+import { Board, BoardRecord, fkConstrBoardTaskOnDeleteCascade } from '../../db';
 
 const getAll = async () => Board;
 
-const getById = async (id) => {
+const getById = async (id: BoardRecord['id']) => {
   const board = Board.find((value) => value.id === id);
   if (!board) {
     throw new RepositoryError(formatString(MESSAGES.RECORD_NOT_FOUND, [id]));
@@ -13,9 +13,9 @@ const getById = async (id) => {
   return board;
 };
 
-const create = async (board) => Board.push(board);
+const create = async (board: BoardRecord) => Board.push(board);
 
-const update = async (board) => {
+const update = async (board: BoardRecord) => {
   const index = Board.findIndex((value) => value.id === board.id);
   if (index === -1) {
     throw new RepositoryError(
@@ -25,7 +25,7 @@ const update = async (board) => {
   Board[index] = board;
 };
 
-const remove = async (id) => {
+const remove = async (id: BoardRecord['id']) => {
   const index = Board.findIndex((value) => value.id === id);
   if (index === -1) {
     throw new RepositoryError(formatString(MESSAGES.RECORD_NOT_FOUND, [id]));
@@ -34,10 +34,4 @@ const remove = async (id) => {
   fkConstrBoardTaskOnDeleteCascade(id);
 };
 
-module.exports = {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-};
+export { getAll, getById, create, update, remove };
