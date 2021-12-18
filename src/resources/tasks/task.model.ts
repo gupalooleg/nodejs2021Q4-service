@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { TaskRecord } from '../../db';
 
+/**
+ * Class describing task data model
+ */
 class Task implements TaskRecord {
   id: string;
 
@@ -16,6 +19,12 @@ class Task implements TaskRecord {
 
   columnId: string;
 
+  /**
+   * Task class constructor
+   *
+   * @param task - task data
+   * @returns Task object
+   */
   constructor(task: TaskRecord) {
     this.id = task.id || uuid();
     this.title = task.title;

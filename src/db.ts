@@ -32,6 +32,14 @@ const Column: ColumnRecord[] = [];
 const Task: TaskRecord[] = [];
 const User: UserRecord[] = [];
 
+/**
+ * Removes tasks placed on a specific board
+ *
+ * @remarks
+ * Performs a role corresponding to the DB constraint with "ON DELETE CASCADE" property
+ *
+ * @param boardId - Board Id
+ */
 const fkConstrBoardTaskOnDeleteCascade = (boardId: BoardRecord['id']) => {
   Task.splice(
     0,
@@ -39,6 +47,15 @@ const fkConstrBoardTaskOnDeleteCascade = (boardId: BoardRecord['id']) => {
     ...Task.filter((value) => value.boardId !== boardId)
   );
 };
+
+/**
+ * Detaches the user from assigned tasks
+ *
+ * @remarks
+ * Performs a role corresponding to the DB constraint with "ON DELETE SET NULL" property
+ *
+ * @param userId - User Id
+ */
 const fkConstrUserTaskOnDeleteSetNull = (userId: UserRecord['id']) =>
   Task.forEach((value) => {
     const task = value;

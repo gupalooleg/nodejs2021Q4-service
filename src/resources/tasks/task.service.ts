@@ -8,6 +8,12 @@ type CustomRequest = FastifyRequest<{
   Body: Task;
 }>;
 
+/**
+ * Handles a request to get all tasks
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const { boardId } = req.params;
@@ -21,6 +27,12 @@ const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to get task by id
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const getById = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const { taskId, boardId } = req.params;
@@ -34,6 +46,12 @@ const getById = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to create task
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const create = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const { boardId } = req.params;
@@ -50,6 +68,12 @@ const create = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to update task
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const update = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const { taskId, boardId } = req.params;
@@ -67,6 +91,12 @@ const update = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to delete task
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const remove = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const { taskId, boardId } = req.params;

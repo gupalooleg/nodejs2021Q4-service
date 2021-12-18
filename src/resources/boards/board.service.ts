@@ -8,6 +8,12 @@ type CustomRequest = FastifyRequest<{
   Body: Board;
 }>;
 
+/**
+ * Handles a request to get all boards
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const boards = await boardRepo.getAll();
@@ -20,6 +26,12 @@ const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to get board by id
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const getById = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const board = await boardRepo.getById(req.params.id);
@@ -32,6 +44,12 @@ const getById = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to create board
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const create = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const board = new Board(req.body);
@@ -45,6 +63,12 @@ const create = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to update board
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const update = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const boardReq = req.body;
@@ -60,6 +84,12 @@ const update = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to delete board
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const remove = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     await boardRepo.remove(req.params.id);

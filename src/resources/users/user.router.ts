@@ -1,6 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import * as userService from './user.service';
 
+/**
+ * Configures all routes for the user entity
+ *
+ * @param fastify - Fastify instance
+ */
 async function routes(fastify: FastifyInstance) {
   fastify.get('/users', userService.getAll);
 

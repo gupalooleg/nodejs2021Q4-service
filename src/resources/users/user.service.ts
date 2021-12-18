@@ -8,6 +8,12 @@ type CustomRequest = FastifyRequest<{
   Body: User;
 }>;
 
+/**
+ * Handles a request to get all users
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const users = await userRepo.getAll();
@@ -21,6 +27,12 @@ const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to get user by id
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const getById = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const user = await userRepo.getById(req.params.id);
@@ -34,6 +46,12 @@ const getById = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to create user
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const create = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const user = new User(req.body);
@@ -48,6 +66,12 @@ const create = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to update user
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const update = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     const userReq = req.body;
@@ -64,6 +88,12 @@ const update = async (req: CustomRequest, rep: FastifyReply) => {
   }
 };
 
+/**
+ * Handles a request to delete user
+ *
+ * @param req - Custom request(base on Fastify request)
+ * @param rep - Fastify reply
+ */
 const remove = async (req: CustomRequest, rep: FastifyReply) => {
   try {
     await userRepo.remove(req.params.id);

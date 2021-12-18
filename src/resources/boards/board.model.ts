@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { BoardRecord, ColumnRecord } from '../../db';
 
+/**
+ * Class describing board data model
+ */
 class Board implements BoardRecord {
   id: string;
 
@@ -8,6 +11,12 @@ class Board implements BoardRecord {
 
   columns: ColumnRecord[];
 
+  /**
+   * Board class constructor
+   *
+   * @param board - board data
+   * @returns Board object
+   */
   constructor(board: BoardRecord) {
     this.id = board.id || uuid();
     this.title = board.title;
