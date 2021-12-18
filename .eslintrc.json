@@ -26,7 +26,7 @@
       "resolvePaths": ["__dirname"]
     }
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
@@ -44,6 +44,7 @@
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error"
+    "@typescript-eslint/no-unused-vars": "error",
+    "tsdoc/syntax": "warn"
   }
 }
