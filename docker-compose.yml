@@ -6,12 +6,14 @@ services:
     env_file: .env
     ports:
       - ${PORT}:${PORT}
-    restart: always
+    restart: on-failure
     volumes:
       - ./src:/usr/app/src
       - ./logs:/usr/app/logs
     networks:
       - app-network
+    depends_on:
+      - db
   db:
     build: ./db/
     container_name: db
@@ -20,7 +22,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    restart: always
+    restart: on-failure
     volumes:
       - ./db:/var/lib/postgresql/data
     networks:
