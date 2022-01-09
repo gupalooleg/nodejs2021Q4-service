@@ -18,7 +18,7 @@ process.on('unhandledRejection', (reason) => {
  */
 (async () => {
   try {
-    await fastify.listen(PORT);
+    await fastify.listen(PORT, '0.0.0.0');
   } catch (err) {
     fastify.log.fatal(err);
     process.exit(1);

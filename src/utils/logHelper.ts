@@ -23,14 +23,14 @@ const loggerOptions: LoggerOptions = {
         level: LOG_LEVEL as pino.LevelWithSilent,
         target: 'pino/file',
         options: {
-          destination: 'app.log',
+          destination: './logs/app.log',
         },
       },
       {
         level: 'error',
         target: 'pino/file',
         options: {
-          destination: 'appError.log',
+          destination: './logs/appError.log',
         },
       },
     ],
