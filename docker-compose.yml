@@ -9,7 +9,7 @@ services:
     restart: on-failure
     volumes:
       - ./src:/usr/app/src
-      - ./logs:/usr/app/logs
+      - logData:/usr/app/logs
     networks:
       - app-network
     depends_on:
@@ -24,9 +24,12 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     restart: on-failure
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - dbData:/var/lib/postgresql/data
     networks:
       - app-network
 networks:
   app-network:
     driver: bridge
+volumes:
+  logData:
+  dbData:
