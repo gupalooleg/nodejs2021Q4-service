@@ -5,6 +5,7 @@ import { routes as userRoutes } from './resources/users/user.router';
 import { routes as boardRoutes } from './resources/boards/board.router';
 import { routes as taskRoutes } from './resources/tasks/task.router';
 import { logger, getHttpStatusCodeByError } from './utils/index';
+import { getConnection } from './db/getConnection';
 
 const fastify = Fastify({ logger });
 
@@ -16,6 +17,15 @@ fastify.setErrorHandler((err, req, rep) => {
 fastify.addHook('preHandler', async (req) => {
   if (req.body) {
     req.log.info({ body: req.body });
+  }
+});
+
+fastify.addHook('onReady', async () => {
+  try {
+    await getConnection();
+    fastify.log.info('DB connection established.');
+  } catch (err) {
+    fastify.log.fatal(err, 'DB connection error.');
   }
 });
 
