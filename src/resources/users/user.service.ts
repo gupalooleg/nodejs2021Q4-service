@@ -16,7 +16,7 @@ type CustomRequest = FastifyRequest<{
  */
 const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   const users = await userRepo.getAll();
-  const usersToResponse = users.map(User.toResponse);
+  const usersToResponse = users.map((user) => User.toResponse(user));
 
   rep.code(HTTP_STATUS_CODE.OK).send(usersToResponse);
 };
@@ -41,9 +41,14 @@ const getById = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const create = async (req: CustomRequest, rep: FastifyReply) => {
-  const user = new User(req.body);
-  await userRepo.create(user);
-  const userToResponse = User.toResponse(user);
+  const user = new User(
+    req.body.id,
+    req.body.name,
+    req.body.login,
+    req.body.password
+  );
+  const createdUser = await userRepo.create(user);
+  const userToResponse = User.toResponse(createdUser);
 
   rep.code(HTTP_STATUS_CODE.CREATED).send(userToResponse);
 };
@@ -55,11 +60,14 @@ const create = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const update = async (req: CustomRequest, rep: FastifyReply) => {
-  const userReq = req.body;
-  userReq.id = req.params.id;
-  const user = new User(userReq);
-  await userRepo.update(user);
-  const userToResponse = User.toResponse(user);
+  const user = new User(
+    req.params.id,
+    req.body.name,
+    req.body.login,
+    req.body.password
+  );
+  const updatedUser = await userRepo.update(user);
+  const userToResponse = User.toResponse(updatedUser);
 
   rep.code(HTTP_STATUS_CODE.OK).send(userToResponse);
 };

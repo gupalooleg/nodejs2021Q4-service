@@ -1,26 +1,49 @@
 import { v4 as uuid } from 'uuid';
-import { BoardRecord, ColumnRecord } from '../../db';
+import {
+  Entity,
+  Column as ColumnDecorator,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
+import { Column } from '../columns/column.model';
 
 /**
  * Class describing board data model
  */
-class Board implements BoardRecord {
+@Entity()
+class Board {
+  @PrimaryColumn()
   id: string;
 
+  @ColumnDecorator()
   title: string;
 
-  columns: ColumnRecord[];
+  @OneToMany(() => Column, (columns) => columns.board, { cascade: true })
+  columns: Column[] | undefined;
 
   /**
    * Board class constructor
    *
-   * @param board - board data
+   * @param id - board id
+   * @param title - board title
+   * @param columns - columns
    * @returns Board object
    */
-  constructor(board: BoardRecord) {
-    this.id = board.id || uuid();
-    this.title = board.title;
-    this.columns = board.columns;
+  constructor(id: string, title: string, columns?: Column[]) {
+    this.id = id || uuid();
+    this.title = title;
+    this.columns = columns;
+  }
+
+  /**
+ * Returns public board data(to HTTP response)
+ *
+ * @param board - board data model object
+ * @returns public board data
+ */
+    static toResponse(board: Board) {
+    const { id, title, columns } = board;
+    return { id, title, columns };
   }
 }
 

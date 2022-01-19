@@ -1,11 +1,14 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { Task } from './task.model';
+import { Board } from '../boards/board.model';
+import { User } from '../users/user.model';
+import { Column } from '../columns/column.model';
 import * as taskRepo from './task.memory.repository';
 import { HTTP_STATUS_CODE } from '../../utils/index';
 
 type CustomRequest = FastifyRequest<{
-  Params: { taskId: Task['id']; boardId: Task['boardId'] };
-  Body: Task;
+  Params: { taskId: Task['id']; boardId: Board['id'] };
+  Body: Task & { userId: User['id']; columnId: Column['id'] };
 }>;
 
 /**
@@ -17,8 +20,9 @@ type CustomRequest = FastifyRequest<{
 const getAll = async (req: CustomRequest, rep: FastifyReply) => {
   const { boardId } = req.params;
   const tasks = await taskRepo.getAll(boardId);
+  const tasksToResponse = tasks.map((task) => Task.toResponse(task));
 
-  rep.code(HTTP_STATUS_CODE.OK).send(tasks);
+  rep.code(HTTP_STATUS_CODE.OK).send(tasksToResponse);
 };
 
 /**
@@ -28,10 +32,11 @@ const getAll = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const getById = async (req: CustomRequest, rep: FastifyReply) => {
-  const { taskId, boardId } = req.params;
-  const task = await taskRepo.getById(taskId, boardId);
+  const { taskId } = req.params;
+  const task = await taskRepo.getById(taskId);
+  const taskToResponse = Task.toResponse(task);
 
-  rep.code(HTTP_STATUS_CODE.OK).send(task);
+  rep.code(HTTP_STATUS_CODE.OK).send(taskToResponse);
 };
 
 /**
@@ -41,13 +46,21 @@ const getById = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const create = async (req: CustomRequest, rep: FastifyReply) => {
-  const { boardId } = req.params;
-  const taskReq = req.body;
-  taskReq.boardId = boardId;
-  const task = new Task(taskReq);
-  await taskRepo.create(task);
+  const task = new Task(
+    req.body.id,
+    req.body.title,
+    req.body.order,
+    req.body.description
+  );
+  const createdTask = await taskRepo.create(
+    task,
+    req.params.boardId,
+    req.body.columnId,
+    req.body.userId
+  );
+  const taskToResponse = Task.toResponse(createdTask);
 
-  rep.code(HTTP_STATUS_CODE.CREATED).send(task);
+  rep.code(HTTP_STATUS_CODE.CREATED).send(taskToResponse);
 };
 
 /**
@@ -57,14 +70,21 @@ const create = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const update = async (req: CustomRequest, rep: FastifyReply) => {
-  const { taskId, boardId } = req.params;
-  const taskReq = req.body;
-  taskReq.id = taskId;
-  taskReq.boardId = boardId;
-  const task = new Task(taskReq);
-  await taskRepo.update(task);
+  const task = new Task(
+    req.params.taskId,
+    req.body.title,
+    req.body.order,
+    req.body.description
+  );
+  const updatedTask = await taskRepo.update(
+    task,
+    req.params.boardId,
+    req.body.columnId,
+    req.body.userId
+  );
+  const taskToResponse = Task.toResponse(updatedTask);
 
-  rep.code(HTTP_STATUS_CODE.OK).send(task);
+  rep.code(HTTP_STATUS_CODE.OK).send(taskToResponse);
 };
 
 /**
@@ -74,8 +94,8 @@ const update = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const remove = async (req: CustomRequest, rep: FastifyReply) => {
-  const { taskId, boardId } = req.params;
-  await taskRepo.remove(taskId, boardId);
+  const { taskId } = req.params;
+  await taskRepo.remove(taskId);
 
   rep.code(HTTP_STATUS_CODE.NO_CONTENT).send();
 };

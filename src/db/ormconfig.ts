@@ -6,6 +6,10 @@ import {
   POSTGRES_PASSWORD,
   POSTGRES_DB,
 } from '../common/config';
+import { User } from '../resources/users/user.model';
+import { Board } from '../resources/boards/board.model';
+import { Column } from '../resources/columns/column.model';
+import { Task } from '../resources/tasks/task.model';
 
 const connectionOptions: ConnectionOptions = {
   type: 'postgres',
@@ -14,7 +18,8 @@ const connectionOptions: ConnectionOptions = {
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  synchronize: false,
+  entities: [User, Board, Column, Task],
+  synchronize: true,
   logging: false,
 };
 

@@ -1,29 +1,37 @@
 import { v4 as uuid } from 'uuid';
-import { UserRecord } from '../../db';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 /**
  * Class describing user data model
  */
-class User implements UserRecord {
+@Entity()
+class User {
+  @PrimaryColumn()
   id: string;
 
+  @Column()
   name: string;
 
+  @Column()
   login: string;
 
+  @Column()
   password: string;
 
   /**
    * User class constructor
    *
-   * @param user - user data
+   * @param id - user id
+   * @param name - user name
+   * @param login - user login
+   * @param password - user password
    * @returns User object
    */
-  constructor(user: Partial<UserRecord> = {}) {
-    this.id = user.id || uuid();
-    this.name = user.name || 'USER';
-    this.login = user.login || 'user';
-    this.password = user.password || 'P@55w0rd';
+  constructor(id: string, name: string, login: string, password: string) {
+    this.id = id || uuid();
+    this.name = name;
+    this.login = login;
+    this.password = password;
   }
 
   /**

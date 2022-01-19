@@ -1,13 +1,24 @@
+import { getRepository } from 'typeorm';
 import { MESSAGES, formatString } from '../../utils/index';
 import { RepositoryError } from '../../error/index';
-import { User, UserRecord, fkConstrUserTaskOnDeleteSetNull } from '../../db';
+import { User } from './user.model';
+
+/**
+ * Retrieve repository for User entity
+ *
+ * @returns Repository for User entity
+ */
+const getEntityRepository = () => getRepository(User);
 
 /**
  * Returns all user records from the DB
  *
  * @returns all user records
  */
-const getAll = async () => User;
+const getAll = async () => {
+  const users = await getEntityRepository().find();
+  return users;
+}
 
 /**
  * Returns a user record from the DB by id
@@ -15,12 +26,11 @@ const getAll = async () => User;
  * @param id - user id
  * @returns user record
  */
-const getById = async (id: UserRecord['id']) => {
-  const user = User.find((value) => value.id === id);
+const getById = async (id: User['id']) => {
+  const user = await getEntityRepository().findOne(id);
   if (!user) {
     throw new RepositoryError(formatString(MESSAGES.RECORD_NOT_FOUND, [id]));
   }
-
   return user;
 };
 
@@ -29,8 +39,9 @@ const getById = async (id: UserRecord['id']) => {
  *
  * @param user - user data
  */
-const create = async (user: UserRecord) => {
-  User.push(user);
+const create = async (user: User) => {
+  const createdUser = await getEntityRepository().save(user);
+  return createdUser;
 };
 
 /**
@@ -38,14 +49,15 @@ const create = async (user: UserRecord) => {
  *
  * @param user - user data
  */
-const update = async (user: UserRecord) => {
-  const index = User.findIndex((value) => value.id === user.id);
-  if (index === -1) {
+const update = async (user: User) => {
+  const userRec = await getEntityRepository().findOne(user.id);
+  if (!userRec) {
     throw new RepositoryError(
       formatString(MESSAGES.RECORD_NOT_FOUND, [user.id])
     );
   }
-  User[index] = user;
+  const updatedUser = await getEntityRepository().save(user);
+  return updatedUser;
 };
 
 /**
@@ -53,13 +65,13 @@ const update = async (user: UserRecord) => {
  *
  * @param id - user id
  */
-const remove = async (id: UserRecord['id']) => {
-  const index = User.findIndex((value) => value.id === id);
-  if (index === -1) {
+const remove = async (id: User['id']) => {
+  const user = await getEntityRepository().findOne(id);
+  if (!user) {
     throw new RepositoryError(formatString(MESSAGES.RECORD_NOT_FOUND, [id]));
   }
-  User.splice(index, 1);
-  fkConstrUserTaskOnDeleteSetNull(id);
+  const deletedUser = await getEntityRepository().remove(user);
+  return deletedUser;
 };
 
 export { getAll, getById, create, update, remove };
