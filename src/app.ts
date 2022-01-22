@@ -4,7 +4,7 @@ import fastifySwagger from 'fastify-swagger';
 import { routes as userRoutes } from './resources/users/user.router';
 import { routes as boardRoutes } from './resources/boards/board.router';
 import { routes as taskRoutes } from './resources/tasks/task.router';
-import { logger, getHttpStatusCodeByError } from './utils/index';
+import { logger, getHttpStatusCodeByError, createInitialDBUser } from './utils/index';
 import { getConnection } from './db/getConnection';
 
 const fastify = Fastify({ logger });
@@ -23,6 +23,7 @@ fastify.addHook('preHandler', async (req) => {
 fastify.addHook('onReady', async () => {
   try {
     await getConnection();
+    await createInitialDBUser();
     fastify.log.info('DB connection established.');
   } catch (err) {
     fastify.log.fatal(err, 'DB connection error.');

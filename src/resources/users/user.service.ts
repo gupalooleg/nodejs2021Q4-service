@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { User } from './user.model';
 import * as userRepo from './user.memory.repository';
-import { HTTP_STATUS_CODE } from '../../utils/index';
+import { HTTP_STATUS_CODE, getPasswordHash } from '../../utils/index';
 
 type CustomRequest = FastifyRequest<{
   Params: { id: User['id'] };
@@ -41,11 +41,12 @@ const getById = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const create = async (req: CustomRequest, rep: FastifyReply) => {
+  const passwordHash = await getPasswordHash(req.body.password);
   const user = new User(
     req.body.id,
     req.body.name,
     req.body.login,
-    req.body.password
+    passwordHash
   );
   const createdUser = await userRepo.create(user);
   const userToResponse = User.toResponse(createdUser);
@@ -60,11 +61,12 @@ const create = async (req: CustomRequest, rep: FastifyReply) => {
  * @param rep - Fastify reply
  */
 const update = async (req: CustomRequest, rep: FastifyReply) => {
+  const passwordHash = await getPasswordHash(req.body.password);
   const user = new User(
     req.params.id,
     req.body.name,
     req.body.login,
-    req.body.password
+    passwordHash
   );
   const updatedUser = await userRepo.update(user);
   const userToResponse = User.toResponse(updatedUser);
