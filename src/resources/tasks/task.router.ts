@@ -1,6 +1,12 @@
-const taskService = require('./task.service');
+import { FastifyInstance } from 'fastify';
+import * as taskService from './task.service';
 
-async function routes(fastify) {
+/**
+ * Configures all routes for the task entity
+ *
+ * @param fastify - Fastify instance
+ */
+async function routes(fastify: FastifyInstance) {
   fastify.get('/boards/:boardId/tasks', taskService.getAll);
 
   fastify.get('/boards/:boardId/tasks/:taskId', taskService.getById);
@@ -12,4 +18,4 @@ async function routes(fastify) {
   fastify.delete('/boards/:boardId/tasks/:taskId', taskService.remove);
 }
 
-module.exports = routes;
+export { routes };

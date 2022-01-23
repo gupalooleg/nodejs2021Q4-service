@@ -10,7 +10,11 @@
 ```
 git clone {repository URL}
 ```
+## Switch to task branch
 
+```
+git switch {task branch}
+```
 ## Installing NPM modules
 
 ```
@@ -26,6 +30,13 @@ npm start
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
+
+## Running application(with Docker)
+
+- Install [Docker](https://docs.docker.com/engine/install/)
+- Clone repository
+- Switch to `task branch with docker(docker, etc.)`
+- Run command `docker-compose up`
 
 ## Testing
 
