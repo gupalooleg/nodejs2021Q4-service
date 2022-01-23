@@ -10,7 +10,11 @@
 ```
 git clone {repository URL}
 ```
+## Switch to task branch
 
+```
+git switch {task branch}
+```
 ## Installing NPM modules
 
 ```
@@ -31,7 +35,7 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 - Install [Docker](https://docs.docker.com/engine/install/)
 - Clone repository
-- Switch to `docker` branch
+- Switch to `task branch with docker(docker, etc.)`
 - Run command `docker-compose up`
 
 ## Testing
