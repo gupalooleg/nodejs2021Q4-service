@@ -7,10 +7,12 @@ import { INIT_USER_LOGIN, INIT_USER_PASSWORD, INIT_USER_NAME } from '../common/c
  * Create initial user
  */
 async function createInitialDBUser (){
+  let user = await userRepo.getByLogin(INIT_USER_LOGIN);
+  if (!user){
     const passwordHash = await getPasswordHash(INIT_USER_PASSWORD);
-    const user = new User(undefined, INIT_USER_NAME, INIT_USER_LOGIN, passwordHash);
-    const createdUser = await userRepo.create(user);
-    return createdUser; 
+    user = new User(undefined, INIT_USER_NAME, INIT_USER_LOGIN, passwordHash);
+    await userRepo.create(user);
+  }
 };
 
 export { createInitialDBUser }

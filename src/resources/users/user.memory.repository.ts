@@ -10,6 +10,18 @@ import { User } from './user.model';
  */
 const getEntityRepository = () => getRepository(User);
 
+
+/**
+ * Returns a user record from the DB by login
+ *
+ * @param login - user login
+ * @returns user record
+ */
+ const getByLogin = async (login: User['login']) => {
+  const user = await getEntityRepository().findOne({ where: {'login': login}});
+  return user;
+};
+
 /**
  * Returns all user records from the DB
  *
@@ -74,4 +86,4 @@ const remove = async (id: User['id']) => {
   return deletedUser;
 };
 
-export { getAll, getById, create, update, remove };
+export { getAll, getById, getByLogin, create, update, remove };
