@@ -5,7 +5,7 @@ import { routes as userRoutes } from './resources/users/user.router';
 import { routes as boardRoutes } from './resources/boards/board.router';
 import { routes as taskRoutes } from './resources/tasks/task.router';
 import { routes as loginRoutes } from './resources/login/login.router';
-import { logger, getHttpStatusCodeByError, createInitialDBUser } from './utils/index';
+import { logger, getHttpStatusCodeByError, createInitialDBUser, checkAuthentication } from './utils/index';
 import { getConnection } from './db/getConnection';
 
 const fastify = Fastify({ logger });
@@ -13,6 +13,13 @@ const fastify = Fastify({ logger });
 fastify.setErrorHandler((err, req, rep) => {
   req.log.error(err);
   rep.code(getHttpStatusCodeByError(err)).send(err.message);
+});
+
+fastify.addHook('onRequest', async (req) => {
+  if(req.url !== '/login' && req.url !== '/' &&
+     !req.url.startsWith('/doc') && !req.url.startsWith('/./doc')){
+    await checkAuthentication(req.headers.authorization);
+  }
 });
 
 fastify.addHook('preHandler', async (req) => {

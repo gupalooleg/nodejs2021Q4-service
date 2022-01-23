@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { User } from '../users/user.model';
 import * as userRepo from '../users/user.memory.repository';
-import { HTTP_STATUS_CODE, MESSAGES, isCorrectPassword } from '../../utils/index';
+import { HTTP_STATUS_CODE, MESSAGES, isCorrectPassword, generateJWT } from '../../utils/index';
 import { ServiceError } from '../../error/index';
 
 type CustomRequest = FastifyRequest<{
@@ -25,7 +25,8 @@ const login = async (req: CustomRequest, rep: FastifyReply) => {
     throw new ServiceError(MESSAGES.FORBIDDEN, HTTP_STATUS_CODE.FORBIDDEN);    
   }
 
-  rep.code(HTTP_STATUS_CODE.OK).send({result: 'OK'});
+  const jwt = generateJWT(user);
+  rep.code(HTTP_STATUS_CODE.OK).send({token: jwt});
 };
 
 export { login };

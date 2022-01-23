@@ -3,4 +3,4 @@ export { formatString } from './formatString';
 export { getHttpStatusCodeByError } from './getHttpStatusCodeByError';
 export { logger } from './logHelper';
 export { createInitialDBUser } from './createInitialDBUser';
-export { getPasswordHash, isCorrectPassword } from './authHelper'
+export { getPasswordHash, isCorrectPassword, generateJWT, checkAuthentication } from './authHelper'
