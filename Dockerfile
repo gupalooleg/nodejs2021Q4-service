@@ -1,6 +1,6 @@
 FROM node:16-alpine
 WORKDIR /usr/app
-COPY package*.json .
+COPY package*.json ./
 RUN npm install --no-optional
-COPY . .
+COPY ./ ./
 CMD ["npm", "run", "start:dev:docker"]
