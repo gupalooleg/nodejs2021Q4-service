@@ -1,4 +1,4 @@
-import { RepositoryError } from '../error/index';
+import { RepositoryError, ServiceError } from '../error/index';
 import { HTTP_STATUS_CODE } from './constants';
 
 /**
@@ -12,6 +12,8 @@ function getHttpStatusCodeByError(e: Error) {
 
   if (e instanceof RepositoryError) {
     httpStatusCode = HTTP_STATUS_CODE.NOT_FOUND;
+  } else if (e instanceof ServiceError){
+    httpStatusCode = e.httpCode;
   }
 
   return httpStatusCode;
