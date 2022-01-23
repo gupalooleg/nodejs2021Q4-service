@@ -4,6 +4,7 @@ import fastifySwagger from 'fastify-swagger';
 import { routes as userRoutes } from './resources/users/user.router';
 import { routes as boardRoutes } from './resources/boards/board.router';
 import { routes as taskRoutes } from './resources/tasks/task.router';
+import { routes as loginRoutes } from './resources/login/login.router';
 import { logger, getHttpStatusCodeByError, createInitialDBUser } from './utils/index';
 import { getConnection } from './db/getConnection';
 
@@ -45,5 +46,7 @@ fastify.register(userRoutes);
 fastify.register(boardRoutes);
 
 fastify.register(taskRoutes);
+
+fastify.register(loginRoutes);
 
 export { fastify };
