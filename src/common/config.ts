@@ -13,7 +13,7 @@ const { POSTGRES_PORT } = process.env;
 const { POSTGRES_DB } = process.env;
 const { POSTGRES_USER } = process.env;
 const { POSTGRES_PASSWORD } = process.env;
-const { JWT_SECRET_KEY } = process.env;
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'Sd68GHfS2J';
 const AUTH_MODE: boolean = process.env.AUTH_MODE === 'true';
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 const INIT_USER_LOGIN = process.env.INIT_USER_LOGIN || 'admin'; 
