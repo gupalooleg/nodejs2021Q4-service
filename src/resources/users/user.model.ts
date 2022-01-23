@@ -12,7 +12,7 @@ class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({unique: true})
   login: string;
 
   @Column()
