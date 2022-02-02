@@ -3,11 +3,11 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './filters/allExceptions.filter';
 import { ValidationPipe } from './pipes/validation.pipe';
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', () => {
   process.exitCode = 1;
 });
 
-process.on('unhandledRejection', (reason) => {
+process.on('unhandledRejection', () => {
   process.exit(1);
 });
 
