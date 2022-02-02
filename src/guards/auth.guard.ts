@@ -23,11 +23,11 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const decodeToken = this.jwtService.verify(token);
-      console.log(decodeToken);
-      return true;
+      this.jwtService.verify(token);
     } catch (e) {
       throw new UnauthorizedException('User authorization failed.');
     }
+
+    return true;
   }
 }
