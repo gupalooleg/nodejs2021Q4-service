@@ -17,6 +17,13 @@ export class UsersService {
     return users.map(User.toResponse);
   }
 
+  async findByLogin(login: User['login']): Promise<User> {
+    const user = await this.usersRepository.findOne({
+      where: { login: login },
+    });
+    return user;
+  }
+
   async findOneById(id: User['id']): Promise<ResponseUserDTO> {
     const user = await this.usersRepository.findOne(id);
     if (!user) {
