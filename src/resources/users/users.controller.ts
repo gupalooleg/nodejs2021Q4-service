@@ -10,7 +10,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 import { UserDTO } from './dto/user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';

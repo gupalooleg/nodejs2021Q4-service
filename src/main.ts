@@ -1,5 +1,5 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './resources/app/app.module';
 import { AllExceptionsFilter } from './filters/allExceptions.filter';
 import { ValidationPipe } from './pipes/validation.pipe';
 
