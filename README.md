@@ -26,6 +26,18 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Downloading
+
+```bash
+$ git clone {repository URL}
+```
+
+## Switch to task branch
+
+```bash
+$ git switch {task branch}
+```
+
 ## Installation
 
 ```bash
@@ -35,27 +47,13 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ docker-compose up
 ```
 
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ npm run test:auth
 ```
 
 ## Support
