@@ -12,6 +12,14 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
+  async findUserById(id: User['id']) {
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found.`);
+    }
+    return user;
+  }
+
   async findAll(): Promise<ResponseUserDTO[]> {
     const users = await this.usersRepository.find();
     return users.map(User.toResponse);

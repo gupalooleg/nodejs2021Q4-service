@@ -6,6 +6,11 @@ import { AppService } from './app.service';
 import { UsersModule } from '../users/users.module';
 import { User } from '../users/user.entity';
 import { AuthModule } from '../auth/auth.module';
+import { Board } from '../boards/board.entity';
+import { BoardsModule } from '../boards/boards.module';
+import { Task } from '../tasks/task.entity';
+import { Column } from '../columns/column.entity';
+import { TasksModule } from '../tasks/tasks.module';
 
 @Module({
   imports: [
@@ -19,7 +24,7 @@ import { AuthModule } from '../auth/auth.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User],
+      entities: [User, Board, Column, Task],
       synchronize: false,
       migrationsRun: true,
       migrations: ['dist/migrations/*.js'],
@@ -28,6 +33,8 @@ import { AuthModule } from '../auth/auth.module';
       },
     }),
     UsersModule,
+    BoardsModule,
+    TasksModule,
     AuthModule,
   ],
   controllers: [AppController],
